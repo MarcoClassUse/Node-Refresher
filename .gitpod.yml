@@ -1,0 +1,9 @@
+tasks:
+  - name: node-js
+    command: |
+      cd /
+vscode:
+  extensions:
+    - PKief.material-icon-theme
+    - christian-kohler.path-intellisense
+    - esbenp.prettier-vscode
