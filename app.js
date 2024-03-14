@@ -1,10 +1,13 @@
-const fs = require('fs');
+const http = require('http');
 
-const userName = "hello world";
+const server = http.createServer((req, res) => {
+    req.on('data', (chunk) => {
+        console.log(`Received chunk: ${chunk}`);
+    });
 
-fs.writeFile('user-data.txt', 'user name: '+userName, (err) => {
-    if (err) {
-        console.log(err);
-    }
-    console.log('WROTE FILE');
+    req.on('end', () => {
+        console.log('Request received completely.');
+    });
 });
+
+server.listen(5000);
