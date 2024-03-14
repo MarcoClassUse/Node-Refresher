@@ -1,13 +1,28 @@
-const http = require('http');
+const express = require('express');
 
-const server = http.createServer((req, res) => {
-    req.on('data', (chunk) => {
-        console.log(`Received chunk: ${chunk}`);
+const app = express();
+
+app.use((req, res, next) => {
+    let body = '';
+    req.on('end', () => {
+        const userName = body.split("=")[1];
+        if (body) {
+            req.body = {name: userName};
+        }
+        next();
     });
 
-    req.on('end', () => {
-        console.log('Request received completely.');
+    req.on('data', (chunk) => {
+        body += chunk;
+
     });
 });
 
-server.listen(5000);
+app.use((req, res, next) => {
+    if (req.body) {
+        return res.send('<h1>'+req.body.name+'</h1>');
+    }
+    res.send('<form method="POST"><input type="text" name="userName"><button>Submit</button></form>')
+});
+
+app.listen(5000);
