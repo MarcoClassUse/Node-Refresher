@@ -1,7 +1,7 @@
 tasks:
   - name: node-js
     command: |
-      cd /
+      cd /workspace/Node-Refresher
 vscode:
   extensions:
     - PKief.material-icon-theme
