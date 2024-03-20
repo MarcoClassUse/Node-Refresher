@@ -15,7 +15,7 @@ const createProduct = async (req, res, next) => {
         const db = client.db('product_test');
         const result = await db.collection('products').insertOne(newProduct);
     } catch(error) {
-        return res.json({massage: "Could not store data into database."});
+        return res.json({message: "Could not store data into database."});
     }
     client.close();
 
@@ -23,7 +23,19 @@ const createProduct = async (req, res, next) => {
 };
 
 const getProducts = async (req, res, next) => {
-    
+    const client = new MongoClient(url);
+    let product = [];
+
+    try {
+        await client.connect();
+        const db = client.db('product_test');
+        product = await db.collection('products').find().toArray();
+    } catch (error) {
+        return res.json({message: "Could not retrieve data."});
+    }
+    client.close();
+
+    res.json(product);
 };
 
 exports.createProduct = createProduct;
