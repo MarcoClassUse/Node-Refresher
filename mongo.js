@@ -8,20 +8,18 @@ const createProduct = async (req, res, next) => {
         name: req.body.name,
         price: req.body.price
     }
-    console.log(password);
-    const client = new MongoClient(url);
 
+    const client = new MongoClient(url);
     try {
         await client.connect();
-        const db = client.db('products_test');
-        const result = db.collection('products').insertOne(newProduct);
+        const db = client.db('product_test');
+        const result = await db.collection('products').insertOne(newProduct);
     } catch(error) {
         return res.json({massage: "Could not store data into database."});
     }
     client.close();
 
     res.json(newProduct);
-
 };
 
 const getProducts = async (req, res, next) => {
